@@ -1,0 +1,19 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "internal/data/queries.sql"
+    schema: "migrations" # Assuming migrations create the schema
+    gen:
+      go:
+        package: "postgres" #  Match the package in internal/data/repositories/postgres
+        out: "internal/data/repositories/sqlc"
+        sql_package: "pgx/v5"
+        emit_json_tags: true
+        emit_interface: true # Generate repository interfaces
+        emit_result_struct_pointers: true
+        emit_params_struct_pointers: true
+        emit_methods_with_db_argument: true # Important for dependency injection
+        output_db_file_name: "db.go" # Name of the generated file
+        output_models_file_name: "models.go" # Name of the generated file for models (optional)
+        output_querier_file_name: "querier.go" # Name for the interface
+        output_files_suffix: "_sqlc" # Optional suffix for generated files.

@@ -1,0 +1,233 @@
+{
+  "guidelines": [
+    {
+      "guideline_id": "NCCN_NSCLC_V3_2025",
+      "name": "NCCN Guidelines for Non-Small Cell Lung Cancer (NSCLC) - Version 3.2025",
+      "version": "3.2025",
+      "issuing_organization": "National Comprehensive Cancer Network (NCCN)",
+      "publication_date": "2025-03-10",
+      "source_document": "NCCN Clinical Practice Guidelines in Oncology (NCCN Guidelines®) for Non-Small Cell Lung Cancer, Version 3.2025",
+      "evidence_level": "Category 1 and 2A/2B evidence, expert consensus, updated based on 2025 ASCO Annual Meeting",
+      "last_reviewed_date": "2025-03-10",
+      "stages": [
+        {
+          "stage_value": "Stage IA",
+          "tnm_criteria": {
+            "T": "T1a, T1b, or T1c",
+            "N": "N0",
+            "M": "M0"
+          },
+          "treatment_options": [
+            {
+              "option_name": "Lobectomy or sublobar resection",
+              "option_type": "Surgical Resection",
+              "rationale": "Surgical resection remains the gold standard for Stage IA NSCLC, offering the highest likelihood of cure when patients are medically fit for surgery. Lobectomy is generally preferred, but sublobar resection (segmentectomy or wedge resection) may be considered for smaller tumors or compromised patients.",
+              "benefits": "Potentially curative, high 5-year survival rates (70-90%), provides definitive pathological staging.",
+              "risks": "Surgical complications (bleeding, infection, pneumonia, prolonged air leak, bronchopleural fistula), anesthetic risks, pain, fatigue, potential for recurrence,  cardiac complications.",
+              "side_effects": "Post-operative pain, fatigue, potential for prolonged recovery, reduced lung function, chest tube discomfort, surgical site infection,  nerve damage.",
+              "source_document": "NCCN Guidelines for NSCLC, Surgical Resection Section, Stage IA, Version 3.2025",
+              "evidence_level": "Category 1"
+            },
+            {
+              "option_name": "Stereotactic body radiotherapy (SBRT)",
+              "option_type": "Radiation Therapy",
+              "rationale": "SBRT is a guideline-recommended, non-invasive alternative to surgery for patients with Stage IA NSCLC who are medically inoperable or decline surgery.  Delivers highly focused radiation to tumor while sparing surrounding healthy tissue.",
+              "benefits": "Non-invasive, effective local control in early-stage disease (local control rates comparable to surgery in select studies), outpatient procedure, shorter treatment duration.",
+              "risks": "Radiation pneumonitis (inflammation of the lungs), chest wall pain, rib fracture, potential for long-term radiation effects, skin burns, esophagitis,  less definitive nodal staging compared to surgical lymph node dissection.",
+              "side_effects": "Fatigue, skin irritation, cough, shortness of breath (pneumonitis), chest wall discomfort, esophagitis, radiation fibrosis.",
+              "source_document": "NCCN Guidelines for NSCLC, Radiation Therapy Section, Stage IA, Version 3.2025",
+              "evidence_level": "Category 1"
+            },
+            {
+              "option_name": "Active Surveillance",
+              "option_type": "Observation",
+              "rationale": "Active surveillance may be considered in select patients with small (≤1cm), very slow-growing nodules and high surgical risk, or patient preference for observation. Requires careful monitoring and follow-up.",
+              "benefits": "Avoidance of immediate treatment and its side effects, monitoring nodule growth over time to determine need for intervention, may be appropriate for indolent tumors.",
+              "risks": "Potential for delayed treatment if nodule progresses to more advanced stage and becomes less treatable, increased anxiety due to watchful waiting, potential for cancer progression and reduced curability if delayed, not suitable for all patients, requires strict adherence to follow-up schedule.",
+              "side_effects": "Anxiety, psychological stress of observation, potential for delayed intervention, false reassurance if surveillance is not rigorous enough.",
+              "source_document": "NCCN Guidelines for NSCLC, Active Surveillance Section, Stage IA, Version 3.2025",
+              "evidence_level": "Category 2B"
+            }
+          ],
+          "additional_info": "Stage IA NSCLC has a generally favorable prognosis. Adjuvant chemotherapy is typically not indicated and does not improve survival in early-stage disease. Clinical trials exploring less invasive surgical techniques (VATS, robotic surgery), novel radiation approaches, or targeted therapies for early-stage disease may be appropriate. PET/CT and mediastinoscopy are generally not recommended for clinical stage IA unless clinically indicated by specific high-risk features."
+        },
+        {
+          "stage_value": "Stage IB",
+          "tnm_criteria": {
+            "T": "T2a",
+            "N": "N0",
+            "M": "M0"
+          },
+          "treatment_options": [
+            {
+              "option_name": "Lobectomy with mediastinal lymph node dissection",
+              "option_type": "Surgical Resection",
+              "rationale": "Surgical resection with systematic mediastinal lymph node dissection is the preferred treatment for resectable Stage IB NSCLC. Provides optimal local control, accurate pathological staging, and improves survival outcomes.",
+              "benefits": "Potentially curative, improved survival compared to non-surgical approaches, allows for accurate staging and nodal assessment, standard of care for resectable disease, may be combined with adjuvant chemotherapy for improved outcomes in high-risk IB.",
+              "risks": "Surgical complications, anesthetic risks, potential for recurrence despite surgery, adjuvant therapy side effects, longer recovery time compared to less invasive radiation options, risk of surgical mortality.",
+              "side_effects": "Post-operative pain, fatigue, surgical site infection, bleeding, pneumonia,  bronchopleural fistula, complications, potential for adjuvant chemotherapy side effects, chest tube related discomfort.",
+              "source_document": "NCCN Guidelines for NSCLC, Surgical Resection Section, Stage IB, Version 3.2025",
+              "evidence_level": "Category 1"
+            },
+            {
+              "option_name": "Stereotactic body radiotherapy (SBRT)",
+              "option_type": "Radiation Therapy",
+              "rationale": "SBRT is a guideline-recommended alternative to surgery for patients with Stage IB NSCLC who are medically inoperable, have significant comorbidities, or decline surgical intervention.  Offers a non-invasive treatment option with good local control.",
+              "benefits": "Non-invasive, effective local control, well-tolerated in most patients, shorter treatment duration compared to surgery, outpatient treatment.",
+              "risks": "Radiation pneumonitis, chest wall pain, rib fracture, less definitive staging compared to surgery as nodal staging is not routinely performed with SBRT, potential for local or regional recurrence.",
+              "side_effects": "Fatigue, skin irritation, cough, potential for radiation pneumonitis, esophagitis, radiation fibrosis, brachial plexopathy.",
+              "source_document": "NCCN Guidelines for NSCLC, Radiation Therapy Section, Stage IB, Version 3.2025",
+              "evidence_level": "Category 1"
+            },
+            {
+              "option_name": "Adjuvant Chemotherapy (Consider)",
+              "option_type": "Adjuvant Chemotherapy",
+              "rationale": "Adjuvant chemotherapy with platinum-based doublet chemotherapy may be considered, particularly for larger tumors (≥4 cm), tumors with positive margins, or those with other high-risk features (e.g., poor differentiation, lymphovascular invasion) to improve survival and reduce risk of recurrence.",
+              "benefits": "Potential to reduce risk of systemic recurrence, improved overall survival in select patients with high-risk Stage IB NSCLC, addresses potential micrometastatic disease.",
+              "risks": "Systemic side effects of chemotherapy, potential for long-term toxicities (neuropathy, cardiac dysfunction), no guaranteed benefit in all patients, not appropriate for frail or comorbid patients.",
+              "side_effects": "Fatigue, nausea, vomiting, hair loss, myelosuppression (neutropenia, thrombocytopenia, anemia), peripheral neuropathy, increased risk of infection, mucositis, renal toxicity, ototoxicity.",
+              "source_document": "NCCN Guidelines for NSCLC, Adjuvant Chemotherapy Section, Stage IB, Version 3.2025",
+              "evidence_level": "Category 2B"
+            }
+          ],
+          "additional_info": "Prognosis for Stage IB NSCLC is generally good. Adjuvant therapy decisions should be individualized based on tumor size, margin status, presence of visceral pleural invasion, patient comorbidities, and performance status. Clinical trials, including those investigating neoadjuvant approaches, or novel adjuvant targeted therapies or immunotherapies, may be appropriate. PET/CT and mediastinoscopy are recommended for accurate staging, especially for larger tumors or centrally located tumors."
+        },
+        {
+          "stage_value": "Stage IIB",
+          "tnm_criteria": {
+            "T": "T2b or T3",
+            "N": "N1",
+            "M": "M0"
+          },
+          "treatment_options": [
+            {
+              "option_name": "Lobectomy with mediastinal lymph node dissection",
+              "option_type": "Surgical Resection",
+              "rationale": "Surgery remains a primary treatment option for Stage IIB NSCLC, especially for medically fit patients without significant comorbidities. Allows for definitive pathological staging, which is crucial for adjuvant therapy decisions and regional control.",
+              "benefits": "Potentially curative, improved survival compared to non-surgical approaches, allows for accurate staging and nodal assessment, standard of care for resectable Stage IIB NSCLC, may be combined with adjuvant chemotherapy for improved disease-free and overall survival, optimal regional nodal control.",
+              "risks": "Higher risk of complications compared to Stage IA/IB surgery, potential for local, regional, or distant recurrence despite surgery, adjuvant therapy side effects, increased surgical mortality and morbidity in patients with significant comorbidities, longer recovery period, cardiac and pulmonary complications.",
+              "side_effects": "Post-operative pain, fatigue, surgical site infection, bleeding, pneumonia,  bronchopleural fistula, cardiac complications (arrhythmias, myocardial infarction), potential for adjuvant chemotherapy side effects (fatigue, nausea, myelosuppression, neuropathy), persistent cough, dyspnea.",
+              "source_document": "NCCN Guidelines for NSCLC, Surgical Resection Section, Stage IIB, Version 3.2025",
+              "evidence_level": "Category 1"
+            },
+            {
+              "option_name": "Chemotherapy followed by radiation therapy",
+              "option_type": "Chemoradiation",
+              "rationale": "Definitive chemoradiation is a guideline-recommended alternative to surgery for patients with Stage IIB NSCLC who are medically inoperable, have unresectable tumors (based on location or extent), or decline surgical intervention.  Provides effective local and regional disease control with non-surgical approach.",
+              "benefits": "Effective local and regional control, potential for survival benefit in inoperable patients or as adjuvant treatment after surgery if surgical margins are positive or nodal disease is extensive, avoids surgical risks and mortality, organ preservation.",
+              "risks": "Significant side effects from concurrent chemotherapy and radiation therapy, including esophagitis, pneumonitis, myelosuppression, cardiac toxicity, long-term toxicities (pulmonary fibrosis, cardiac damage, esophageal stricture), higher toxicity profile compared to surgery alone, less definitive staging.",
+              "side_effects": "Fatigue, nausea, vomiting, hair loss, myelosuppression (neutropenia, thrombocytopenia, anemia), diarrhea, skin reactions, esophagitis, pneumonitis, cardiac toxicity (pericarditis, cardiomyopathy), dysphagia, radiation dermatitis, pulmonary fibrosis.",
+              "source_document": "NCCN Guidelines for NSCLC, Chemoradiation Therapy Section, Stage IIB, Version 3.2025",
+              "evidence_level": "Category 1"
+            }
+          ],
+          "additional_info": "Adjuvant chemotherapy after surgery is generally recommended for Stage IIB NSCLC to improve survival outcomes and reduce recurrence risk. Clinical trials, including those investigating neoadjuvant chemotherapy followed by surgery or consolidation immunotherapy after chemoradiation, may be appropriate and should be discussed with patients.  Comprehensive staging with PET/CT and mediastinoscopy is strongly recommended to exclude more advanced (e.g., Stage III) disease before definitive local therapy. Consider referral to a multidisciplinary thoracic oncology team for treatment planning."
+        },
+        {
+          "stage_value": "Stage IIIA",
+          "tnm_criteria": {
+            "T": "T1a, T1b, T1c, T2a, or T2b",
+            "N": "N2",
+            "M": "M0"
+          },
+          "treatment_options": [
+            {
+              "option_name": "Chemoradiation followed by consolidation immunotherapy (Durvalumab)",
+              "option_type": "Sequential Chemoradiation and Immunotherapy",
+              "rationale": "Definitive chemoradiation followed by consolidation immunotherapy with durvalumab is a standard approach for Stage IIIA NSCLC, particularly for patients with unresectable tumors or those not ideal surgical candidates. Consolidation immunotherapy improves progression-free and overall survival after chemoradiation.",
+              "benefits": "Improved survival compared to chemoradiation alone, non-surgical approach for locally advanced disease, consolidation immunotherapy provides systemic disease control.",
+              "risks": "Significant side effects from chemoradiation and immunotherapy, esophagitis, pneumonitis, immune-related adverse events (irAEs), long-term toxicities, not curative in all patients.",
+              "side_effects": "Fatigue, nausea, vomiting, hair loss, myelosuppression, diarrhea, skin reactions, esophagitis, pneumonitis, cardiac toxicity, dysphagia, radiation dermatitis, immune-related adverse events (colitis, pneumonitis, endocrinopathies).",
+              "source_document": "NCCN Guidelines for NSCLC, Stage IIIA, Version 3.2025",
+              "evidence_level": "Category 1"
+            },
+            {
+              "option_name": "Surgical resection (in select patients) followed by adjuvant chemotherapy",
+              "option_type": "Surgical Resection and Adjuvant Chemotherapy",
+              "rationale": "Surgical resection may be considered in select patients with limited N2 disease (e.g., single-station N2) who are deemed surgically fit and can tolerate trimodality therapy. Adjuvant chemotherapy is essential after surgery to address micrometastatic disease.",
+              "benefits": "Potentially curative in select patients, improved survival compared to non-surgical approaches in carefully selected Stage IIIA, allows for precise pathological staging and nodal assessment.",
+              "risks": "High risk of complications from trimodality therapy (surgery, chemotherapy, radiation if needed), surgical morbidity and mortality, significant systemic side effects from chemotherapy, potential for recurrence despite trimodality therapy, prolonged and intensive treatment course.",
+              "side_effects": "Post-operative pain, fatigue, surgical site infection, bleeding, pneumonia,  bronchopleural fistula, cardiac complications, adjuvant chemotherapy side effects (fatigue, nausea, myelosuppression, neuropathy), radiation pneumonitis, esophagitis (if postoperative radiation is needed).",
+              "source_document": "NCCN Guidelines for NSCLC, Surgical Resection Section, Stage IIIA, Version 3.2025",
+              "evidence_level": "Category 2A"
+            }
+          ],
+          "additional_info": "Stage IIIA NSCLC represents a heterogeneous group. Treatment decisions are complex and require a multidisciplinary approach.  Concurrent chemoradiation followed by consolidation durvalumab is often the preferred non-surgical approach.  Surgery may be considered in highly selected patients, typically with limited N2 disease and good performance status, but often requires trimodality therapy (surgery, chemotherapy, and potentially radiation). Clinical trials investigating novel systemic therapies, neoadjuvant approaches, and immunotherapy combinations are highly relevant and should be discussed with patients. PET/CT and mediastinoscopy are crucial for accurate staging and treatment planning."
+        },
+        {
+          "stage_value": "Stage IV",
+          "tnm_criteria": {
+            "T": "Any T",
+            "N": "Any N",
+            "M": "M1a, M1b, or M1c"
+          },
+          "treatment_options": [
+            {
+              "option_name": "Systemic therapy: Combination Chemotherapy (e.g., Platinum-based)",
+              "option_type": "Chemotherapy",
+              "rationale": "Combination chemotherapy, typically platinum-based doublets, remains a standard first-line systemic treatment option for Stage IV NSCLC patients without actionable targetable mutations or high PD-L1 expression. Provides broad cytotoxic effect and can induce tumor shrinkage.",
+              "benefits": "Disease control, symptom palliation, prolonged survival compared to best supportive care in advanced NSCLC, effective in various NSCLC histologies (squamous and non-squamous), relatively rapid response rates.",
+              "risks": "Significant systemic side effects, myelosuppression (neutropenia, thrombocytopenia, anemia), peripheral neuropathy, nephrotoxicity, cardiotoxicity, not curative in metastatic setting, resistance to chemotherapy inevitably develops, quality of life impact.",
+              "side_effects": "Fatigue, nausea, vomiting, hair loss, myelosuppression, peripheral neuropathy, diarrhea, increased risk of infection, alopecia, mucositis, renal toxicity, ototoxicity, infusion reactions, thromboembolic events (with Bevacizumab), hypersensitivity reactions.",
+              "source_document": "NCCN Guidelines for NSCLC, Systemic Therapy Section, Stage IV, Version 3.2025",
+              "evidence_level": "Category 1"
+            },
+            {
+              "option_name": "Systemic therapy: Targeted therapy (EGFR, ALK, ROS1, BRAF, NTRK, RET, MET exon 14 skipping, KRAS G12C)",
+              "option_type": "Targeted Therapy",
+              "rationale": "Targeted therapy with oral tyrosine kinase inhibitors (TKIs) is the preferred first-line systemic treatment for Stage IV NSCLC patients whose tumors harbor specific actionable driver mutations (e.g., EGFR, ALK, ROS1, BRAF, NTRK, RET, MET exon 14 skipping, KRAS G12C). Personalized treatment approach based on tumor genomic profiling.",
+              "benefits": "Improved progression-free survival, often better tolerated than chemotherapy in mutation-positive patients, convenient oral administration, targets specific oncogenic drivers with high precision, higher response rates and disease control rates in biomarker-selected populations.",
+              "risks": "Specific toxicities depending on the targeted agent (e.g., skin rash, diarrhea, hypertension, QT prolongation, liver toxicity, pneumonitis), resistance to targeted therapy inevitably develops over time, requires upfront biomarker testing to identify eligible patients, not effective in mutation-negative tumors.",
+              "side_effects": "Skin rash, diarrhea, fatigue, hypertension, specific toxicities depending on the targeted agent, hand-foot syndrome, acneiform rash, interstitial lung disease, liver toxicity, QT prolongation, EGFR-TKI specific toxicities (paronychia, stomatitis).",
+              "source_document": "NCCN Guidelines for NSCLC, Systemic Therapy Section, Stage IV, Version 3.2025",
+              "evidence_level": "Category 1"
+            },
+            {
+              "option_name": "Systemic therapy: Immunotherapy (PD-1/PD-L1 inhibitors) as monotherapy or combination",
+              "option_type": "Immunotherapy",
+              "rationale": "Immunotherapy with PD-1/PD-L1 inhibitors, either as monotherapy (in high PD-L1 expressors) or in combination with chemotherapy, is a key first-line systemic treatment option for Stage IV NSCLC, particularly in patients without targetable mutations or with high PD-L1 expression.  Stimulates the patient's own immune system to target and destroy cancer cells, leading to durable responses in some patients.",
+              "benefits": "Durable responses in a subset of patients leading to long-term survival benefit, different and potentially less severe toxicity profile than chemotherapy (no hair loss, less nausea), can be effective even in advanced and heavily pretreated disease, may provide long-term disease control in responders.",
+              "risks": "Immune-related adverse events (irAEs) which can affect any organ system and can be severe or life-threatening (colitis, pneumonitis, endocrinopathies, hepatitis, myocarditis), not effective in all patients, response rates vary depending on PD-L1 expression and combination regimen,  requires careful monitoring and management of irAEs.",
+              "side_effects": "Fatigue, skin rash, diarrhea, colitis, pneumonitis, endocrinopathies (thyroid dysfunction, adrenal insufficiency, hypophysitis, type 1 diabetes), hepatitis, other immune-related adverse events (neurologic, hematologic, rheumatologic, ocular), infusion reactions, hyperprogression in rare cases.",
+              "source_document": "NCCN Guidelines for NSCLC, Immunotherapy Section, Stage IV, Version 3.2025",
+              "evidence_level": "Category 1"
+            },
+            {
+              "option_name": "Palliative radiation therapy",
+              "option_type": "Palliative Radiation Therapy",
+              "rationale": "Palliative radiation therapy is a valuable modality for localized symptom control, improving quality of life, and managing complications in Stage IV NSCLC. Can be effectively used to treat painful bone metastases, brain metastases, airway obstruction, spinal cord compression, and bleeding.",
+              "benefits": "Effective symptom relief (pain, bleeding, airway obstruction, bone pain, neurologic symptoms from brain metastases), improved quality of life, can be delivered in fewer fractions (hypofractionation) for patient convenience, localized treatment with fewer systemic side effects compared to systemic therapies, rapid symptom control in many cases.",
+              "risks": "Side effects of radiation therapy are generally localized to the treated area, but can include fatigue, not a curative treatment for metastatic disease, may not be effective for all symptoms, potential for radiation-induced toxicities in treated area, limited to localized symptom control.",
+              "side_effects": "Fatigue, skin reactions, esophagitis (if chest radiation), site-specific side effects depending on the treated area (e.g., hair loss for brain radiation), radiation recall, myelosuppression if large bone marrow volume is irradiated, nausea (if abdomen is treated), diarrhea (if pelvis is treated).",
+              "source_document": "NCCN Guidelines for NSCLC, Palliative Radiation Therapy Section, Stage IV, Version 3.2025",
+              "evidence_level": "Category 1"
+            },
+            {
+              "option_name": "Best Supportive Care",
+              "option_type": "Best Supportive Care",
+              "rationale": "Best supportive care focuses on maximizing quality of life, symptom management, and addressing patient needs when active anti-cancer treatment is not desired or appropriate. Essential component of care for all cancer patients, especially in advanced stages.",
+              "benefits": "Symptom palliation, improved quality of life, patient-centered care focused on comfort and well-being, addresses physical, emotional, and spiritual needs.",
+              "risks": "Does not treat the cancer itself, may not prolong survival in advanced disease, may not address the underlying disease progression.",
+              "side_effects": "Side effects depend on specific supportive care interventions (e.g., pain medications, anti-nausea drugs), but generally aims to minimize treatment burden.",
+              "source_document": "NCCN Guidelines for NSCLC, Principles of Best Supportive Care, Version 3.2025",
+              "evidence_level": "Category 1"
+            }
+          ],
+          "additional_info": "Treatment for Stage IV NSCLC is primarily systemic and palliative, focusing on disease control, symptom management, and improving quality of life.  Personalized medicine approaches, including comprehensive biomarker testing to guide targeted therapy and immunotherapy decisions, are strongly recommended. Clinical trials evaluating novel systemic therapies, combinations, and strategies to overcome resistance are highly relevant and should be prioritized for eligible and willing patients.  Treatment decisions should be highly individualized and made through a multidisciplinary discussion, carefully considering patient performance status, comorbidities, biomarker status, extent of disease, symptom burden, prognosis, treatment goals, and patient preferences and values.  Palliative care and hospice referral should be offered early in the course of Stage IV disease to address symptom management, quality of life, and end-of-life planning."
+        }
+      ],
+      "guideline_version_history": [
+        {
+          "version": "2.2024",
+          "publication_date": "2024-05-15",
+          "changes": "Initial version of NCCN NSCLC Guidelines data loaded into system. Includes staging information and treatment options for Stages IA, IB, IIB and IV, based on NCCN Guidelines Version 2.2024."
+        },
+        {
+          "version": "3.2025",
+          "publication_date": "2025-03-10",
+          "changes": "Expanded guideline data to include Stage IB NSCLC treatment options and enhanced detail for all treatment options across Stages IA, IB, IIB, and IV. Added 'source_document' and 'evidence_level' fields to treatment options for improved traceability and clinical context. Updated guideline metadata to NCCN NSCLC Guidelines Version 3.2025, reflecting updates from ASCO 2025. Added Stage IIIA and Stage IIIB/IIIC guideline information and treatment options."
+        }
+      ]
+    }
+  ]
+}

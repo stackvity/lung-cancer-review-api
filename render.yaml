@@ -1,0 +1,101 @@
+# render.yaml - Render Deployment Configuration for Patient-Centric AI Lung Cancer Review System Backend API
+#
+# This file defines the Render.com deployment configuration for the backend API service.
+# It specifies the service type, build and start commands, environment variables, health checks,
+# and database setup required for deploying the application on Render.com.
+#
+# For detailed information, refer to: [backend-cloud-deploy.md](backend-cloud-deploy.md) and Render.com documentation.
+#
+# IMPORTANT: This file is configured for Render.com's YAML-based deployment.
+#            Ensure all environment variables, especially sensitive ones (API keys, DB credentials),
+#            are securely managed within Render.com's environment variable settings and NOT hardcoded here.
+#
+# Task ID: BE-007 Sprint 1: Secure Access and Basic Infrastructure
+
+services:
+  - type: web # Declares a web service, suitable for HTTP-based APIs
+    name: lung-cancer-review-api # Service name on Render.com (customizable for dashboard identification)
+    env: go # Specifies the runtime environment as Go
+    region: sgp # Choose a geographically relevant region (e.g., Singapore) for lower latency and compliance - Customizable deployment region
+    buildCommand: "./scripts/build.sh" # Command to execute for building the application (compiles Go backend)
+    startCommand: "./lung-cancer-review-api" # Command to start the compiled application binary (runs the API server)
+    dockerfilePath: Dockerfile # Path to the Dockerfile, located in the root directory
+    healthCheckPath: /api/v1/health # Health check path for Render to monitor service health -  Uses the dedicated /api/v1/health endpoint
+    autoDeploy: yes # Enables automatic deployments on Git pushes for CI/CD automation
+    plan: free # Instance size/plan - **Free Tier for Development/Testing ONLY - MUST Upgrade for Production** - Specifies the instance plan - **Upgrade to a PAID plan (Starter or Professional) for Production**
+    numInstances: 1 # Initial number of instances - Can be adjusted for horizontal scaling in production
+    envVars: # Environment variables passed to the service
+      - key: DATABASE_URL # [SECURITY WARNING]: In Production, use Render's Database Connection URL from the Database resource - **CRITICAL: Securely manage database credentials**
+        fromDatabase:
+          name: lung-cancer-review-db # References the database service defined below, linking the connection string
+          property: connectionString # Specifies to use the 'connectionString' property for database access
+      - key: GEMINI_API_KEY # [SECURITY WARNING]: Store API keys securely in Render Environment Variables, NOT directly in this file - **CRITICAL: Securely manage API keys**
+        sync: false # Marks the variable as a secret, preventing it from being synced to GitHub - **DO NOT REMOVE: Essential for security**
+      - key: SENTRY_DSN # [SECURITY WARNING]: Store Sentry DSN securely in Render Environment Variables, NOT directly in this file - **CRITICAL: Securely manage Sentry DSN**
+        sync: false # Marks as secret - **DO NOT REMOVE: Essential for security**
+      - key: FILE_ENCRYPTION_KEY # [SECURITY WARNING]: Store Encryption Key securely in Render Environment Variables, NOT directly in this file - **CRITICAL: Securely manage Encryption Key for data protection**
+        sync: false # Marks as secret - **DO NOT REMOVE: Essential for security**
+      - key: CLOUD_STORAGE_BUCKET # [SECURITY WARNING]: If bucket name is sensitive, manage securely in Render Environment Variables - Cloud Storage Bucket Name (e.g., AWS S3 bucket)
+        sync: false # Marks as secret if bucket name is considered sensitive -  **Manage bucket names according to your security policy**
+      - key: AWS_REGION # AWS Region for Cloud Storage (e.g., us-east-1) -  Required if using AWS S3 for storage - **SECURITY WARNING: If AWS region configuration is sensitive, manage securely**
+        sync: false # Marks as secret if AWS region is considered sensitive - **Manage AWS region configuration according to your security policy**
+      - key: STORAGE_TYPE # Storage Type (e.g., cloud, local) - Defines the storage type to use, 'cloud' for cloud storage, 'local' for local filesystem
+        value: cloud # Sets the default storage type to 'cloud' - Can be overridden in Render.com settings for specific deployments (e.g., local for testing)
+      - key: LOG_LEVEL # Log Level (e.g., debug, info, warn, error) - Defines the logging verbosity level for the application - 'info' for production, 'debug' for development/detailed logging
+        value: info # Sets the default log level to 'info' for production-like logging - Can be overridden in Render.com settings for more verbose logging during debugging
+      - key: LOG_FORMAT # Log Format (e.g., text, json) - Defines the log output format - 'text' for human-readable logs, 'json' for structured, machine-readable logs
+        value: text # Sets the default log format to 'text' for readability in development/staging - Can be overridden to 'json' for production for structured logging
+      - key: LINK_EXPIRATION # Access Link Expiration Duration - Defines the duration for which access links are valid before expiring - Example: 24 hours
+        value: 24h # Sets the default link expiration to 24 hours - Can be overridden in Render.com settings to adjust link validity period
+      - key: DATA_RETENTION # Data Retention Duration - Defines the duration for which patient data is retained before secure deletion - Example: 90 days
+        value: 90d # Sets the default data retention period to 90 days - Can be overridden in Render.com settings to adjust data retention policy based on compliance needs
+      - key: MAX_FILE_SIZE # Maximum File Size Limit for uploads - Defines the maximum allowed file size for document uploads in bytes - Example: 50MB (52428800 bytes)
+        value: "52428800" # Sets the default max file size to 50MB - Can be overridden in Render.com settings to adjust file size limits
+      - key: REPORT_TEMPLATE_PATH # Path to Report Templates - Defines the file path to the directory containing report templates within the Docker image
+        value: /app/templates # Sets the default template path - Assumes templates are located in '/app/templates' inside the Docker image, consistent with Dockerfile configuration
+      - key: DB_MAX_OPEN_CONNS # Database Max Open Connections - Defines the maximum number of open connections the database connection pool can establish - Example: 25 (adjust based on load)
+        value: "25" # Sets the default maximum open connections to 25 - Can be overridden in Render.com settings to tune database connection pooling
+      - key: DB_MAX_IDLE_CONNS # Database Max Idle Connections - Defines the maximum number of idle connections to maintain in the database connection pool - Example: 5 (adjust based on load)
+        value: "5" # Sets the default maximum idle connections to 5 - Can be overridden in Render.com settings to tune database connection pooling
+      - key: DB_CONN_MAX_LIFETIME # Database Connection Max Lifetime - Defines the maximum duration a database connection can be reused before being closed and reopened - Example: 30 minutes (connection recycling)
+        value: 30m # Sets the default max connection lifetime to 30 minutes - Can be overridden in Render.com settings to tune connection recycling
+      - key: DB_CONN_MAX_IDLE_TIME # Database Connection Max Idle Time - Defines the maximum idle time for a database connection before it's closed - Example: 5 minutes (idle connection timeout)
+        value: 5m # Sets the default max connection idle time to 5 minutes - Can be overridden in Render.com settings to tune idle connection timeout
+      - key: GCLOUD_PROJECT # Google Cloud Project ID -  Required if using Google Cloud services, like Gemini API - **SECURITY WARNING: If GCP Project ID is considered sensitive, manage securely**
+        sync: false # Marks as secret if GCP Project ID is considered sensitive -  **Manage GCP Project ID according to your security policy**
+
+databases:
+  - name: lung-cancer-review-db # Database service name on Render.com (customizable, used for linking in 'envVars')
+    databaseName: lung_cancer_review_db # Database name inside PostgreSQL (should match DB_NAME env var)
+    region: sgp # Choose a geographically relevant region (e.g., Singapore) for database service - Customizable database region, co-location with web service recommended
+    plan: free-dev # Database instance size/plan - **Free Tier for Development/Testing - MUST Upgrade to a PAID plan for Production** - Specifies the database instance plan - **Upgrade to a PAID plan (Starter or Professional) for Production for Encryption at Rest and HIPAA compliance**
+    # IMPORTANT: For Production, upgrade to a PAID Render PostgreSQL plan to enable Encryption at Rest and ensure HIPAA compliance.
+# --- Documentation ---
+# - services:: Defines the web service component of the application.
+#   - type: web: Specifies that this is a web service.
+#   - name: lung-cancer-review-api:  User-defined name for the service in Render, used for identification in the Render dashboard.
+#   - env: go:  Specifies the runtime environment as Go, instructing Render to prepare a Go execution environment.
+#   - region: sgp: Sets the deployment region to Singapore (sgp). Choose a region that is geographically close to your user base for optimal latency.
+#   - buildCommand: "./scripts/build.sh": Specifies the command to build the application. This executes the 'build.sh' script in the root directory, which compiles the Go backend.
+#   - startCommand: "./lung-cancer-review-api":  Specifies the command to start the application server. This runs the compiled 'lung-cancer-review-api' binary.
+#   - dockerfilePath: Dockerfile: Specifies the path to the Dockerfile, indicating that Render should build the service using a Dockerfile.
+#   - healthCheckPath: /api/v1/health: Configures a health check endpoint for Render. Render will periodically check this path to ensure the service is healthy.
+#   - autoDeploy: yes: Enables automatic deployments. Render will automatically deploy new versions of the application whenever changes are pushed to the linked Git repository.
+#   - plan: free: Specifies the Render instance plan. 'free' indicates the free tier, suitable for development and testing. **IMPORTANT: For production, this MUST be changed to a PAID plan.**
+#   - numInstances: 1: Sets the initial number of instances to 1. For production, consider increasing this for horizontal scaling and high availability.
+#   - envVars:: Defines environment variables that will be available to the service at runtime.
+#     - DATABASE_URL:  Securely links the web service to the PostgreSQL database service created below, using Render's internal networking and secrets management.
+#     - GEMINI_API_KEY, SENTRY_DSN, FILE_ENCRYPTION_KEY, CLOUD_STORAGE_BUCKET, AWS_REGION: Example sensitive environment variables. **IMPORTANT: In production, these MUST be configured as SECRETS in Render.com's dashboard, NOT hardcoded here.**
+#     - STORAGE_TYPE, LOG_LEVEL, LOG_FORMAT, LINK_EXPIRATION, DATA_RETENTION, MAX_FILE_SIZE, REPORT_TEMPLATE_PATH, DB_MAX_OPEN_CONNS, DB_MAX_IDLE_CONNS, DB_CONN_MAX_LIFETIME, DB_CONN_MAX_IDLE_TIME, GCLOUD_PROJECT: Example non-sensitive configuration variables with default values that can be overridden in Render.com's settings if needed.
+# - databases:: Defines a PostgreSQL database service.
+#   - name: lung-cancer-review-db: User-defined name for the database service within Render.
+#   - databaseName: lung_cancer_review_db:  The name of the PostgreSQL database to be created. This should match the DB_NAME environment variable used by the API service.
+#   - region: sgp: Sets the database deployment region to Singapore, ideally co-located with the web service for optimal performance.
+#   - plan: free-dev: Specifies the Render database plan. 'free-dev' is the free development tier. **IMPORTANT: For production, this MUST be upgraded to a PAID plan for encryption at rest, reliability, and to ensure HIPAA compliance.**
+
+# --- Security Notes ---
+# - **CRITICAL SECURITY REMINDER:** Never commit or hardcode sensitive information like API keys, database credentials, and encryption keys directly into this file or any part of the codebase.
+# -  Always utilize Render.com's secure environment variable and secrets management features to inject sensitive configuration values at runtime. This ensures that secrets are not exposed in your Git repository or build logs.
+# -  For production deployments, it is MANDATORY to upgrade to PAID Render plans for both Web Services and PostgreSQL Databases. Paid plans are essential for enabling encryption at rest for the database, ensuring higher service reliability, and meeting HIPAA and other compliance requirements.
+# -  Implement regular rotation of encryption keys and API keys as a security best practice to minimize the impact of potential key compromise.
+# -  Continuously monitor Render.com's security recommendations and best practices and apply them to your deployment configuration to maintain a secure and compliant deployment environment.

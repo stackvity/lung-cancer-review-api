@@ -1,0 +1,122 @@
+name: Deploy to Render # Workflow name: Clearly indicates purpose - Deployment to Render
+
+on:
+  push:
+    branches:
+      - main # Trigger workflow on pushes to the main branch (production deployments)
+      - develop # Trigger workflow on pushes to the develop branch (staging deployments) - Recommendation: Environment-Specific Workflows
+  workflow_dispatch: # Enable manual workflow triggering from GitHub UI - for on-demand deployments or testing - Recommendation: Environment-Specific Workflows
+    inputs:
+      environment: # Input for selecting deployment environment when manually triggering - Recommendation: Environment-Specific Workflows
+        description: "Deployment environment (production, staging, development)"
+        required: false
+        default: "production" # Defaults to production if not specified
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # Runner: Specifies using Ubuntu latest runner for workflow execution
+    environment: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment || github.ref_name }} # Set deployment environment based on workflow input or triggering branch - Recommendation: Environment-Specific Workflows
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3 # Step: Checkout code - Action to checkout the repository code to the runner
+
+      - name: Set up Go
+        uses: actions/setup-go@v4 # Step: Set up Go - Action to set up the Go environment for building the application
+        with:
+          go-version: "1.21" # Specify Go version to use, consistent with backend-techstack.md - Ensures consistent Go version across builds
+
+      - name: Install dependencies
+        run: go mod download # Step: Install dependencies - Downloads Go dependencies defined in go.mod and go.sum
+
+      - name: Run linters
+        run: golangci-lint run ./... # Step: Run linters - Executes golangci-lint for static code analysis and code quality checks - Ensures code quality standards are met
+
+      - name: Run Unit Tests # Step: Run Unit Tests - Executes Go unit tests specifically - Recommendation: More Granular Testing Stages
+        run: go test -v ./... -run=TestUnit
+
+      - name: Run Integration Tests # Step: Run Integration Tests - Executes Go integration tests specifically - Recommendation: More Granular Testing Stages
+        run: go test -v ./... -tags=integration
+
+      - name: Build Docker image
+        run: docker build -t lung-cancer-review-api:latest . # Step: Build Docker image - Builds the Docker image for the backend API
+
+      - name: Push Docker image to Render
+        run: |
+          docker tag lung-cancer-review-api:latest  ${{ secrets.RENDER_REGISTRY_HOSTNAME }}/lung-cancer-review-api:${{ github.sha }} # Tag Docker image with Render registry hostname and commit SHA for versioning
+          docker login -u ${{ secrets.RENDER_USERNAME }} -p ${{ secrets.RENDER_PASSWORD }} ${{ secrets.RENDER_REGISTRY_HOSTNAME }} # Login to Render registry using GitHub Secrets for secure authentication
+          docker push ${{ secrets.RENDER_REGISTRY_HOSTNAME }}/lung-cancer-review-api:${{ github.sha }} # Push tagged Docker image to Render registry
+
+      - name: Deploy to Render (Production) # Step: Deploy to Render (Production) - Deploys to production environment on Render.com - Recommendation: Environment-Specific Workflows
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' # Conditional execution: Only run on pushes to 'main' branch (production)
+        id: deploy-prod # Step ID for conditional rollback in case of deployment failure - Recommendation: Rollback Strategy
+        uses: render-oss/deploy-render-action@v1 # Use Render's official deploy action
+        with:
+          service-id: ${{ secrets.RENDER_SERVICE_ID }} # Service ID for production environment from Render, stored as GitHub secret
+          api-key: ${{ secrets.RENDER_API_KEY }} # API Key for Render, stored as GitHub secret
+
+      - name: Deploy to Staging (Example - Conditional) # Step: Deploy to Staging (Conditional) - Example conditional deployment to staging environment - Recommendation: Environment-Specific Workflows
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging') # Conditional execution: Run on pushes to 'develop' branch OR manual workflow trigger with 'staging' environment input
+        uses: render-oss/deploy-render-action@v1 # Re-use Render deploy action for staging deployment
+        with:
+          service-id: ${{ secrets.RENDER_STAGING_SERVICE_ID }} # Service ID for staging environment from Render, stored as GitHub secret
+          api-key: ${{ secrets.RENDER_API_KEY }} # API Key for Render (can be same or different for staging), stored as GitHub secret
+
+      - name: Run Database Migrations (Production) # Step: Run Database Migrations (Production) - Executes database migrations for production environment - Recommendation: Environment-Specific Workflows
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' # Conditional execution: Only run on pushes to 'main' branch (production)
+        run: ./scripts/migrate.sh up # Execute database migration script - **IMPORTANT: Ensure migrate.sh script is securely configured and managed**
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }} # Database URL for production from GitHub secrets - **SECURITY NOTE: Ensure DATABASE_URL is securely stored in GitHub Secrets**
+
+      - name: Run Database Migrations (Staging - Example - Conditional) # Step: Run Database Migrations (Staging - Conditional) - Example conditional database migrations for staging - Recommendation: Environment-Specific Workflows
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging') # Conditional execution: Run on pushes to 'develop' branch OR manual workflow trigger with 'staging' environment input
+        run: ./scripts/migrate.sh up # Execute database migration script - **IMPORTANT: Ensure migrate.sh script is securely configured and managed**
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_STAGING_URL }} # Database URL for staging from GitHub secrets - **SECURITY NOTE: Ensure DATABASE_STAGING_URL is securely stored in GitHub Secrets**
+
+      - name: Rollback Deployment (Production) # Step: Rollback Deployment (Production) - Automated rollback in case of production deployment failure - Recommendation: Rollback Strategy
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.deploy-prod.outcome == 'failure' # Conditional execution: Only run if production deployment step ('deploy-prod') fails
+        uses: render-oss/deploy-render-action@v1 # Re-use Render deploy action for rollback
+        with:
+          service-id: ${{ secrets.RENDER_SERVICE_ID }} # Service ID for production environment from Render, stored as GitHub secret
+          api-key: ${{ secrets.RENDER_API_KEY }} # API Key for Render, stored as GitHub secret
+          rollback: true # Enable rollback feature - Triggers automatic rollback to the previously deployed version on Render
+
+      - name: Send Slack Notification (Deployment Status) # Step: Send Slack Notification (Deployment Status) - Sends Slack notification with deployment status - Recommendation: Slack/Email Notifications
+        if: always() # Conditional execution: Always run this step to ensure notifications are sent regardless of deployment outcome
+        uses: slackapi/slack-github-action@v1 # Use Slack GitHub Action for sending notifications
+        with:
+          slack-workspace: ${{ secrets.SLACK_WORKSPACE }} # Slack workspace ID from GitHub secrets
+          slack-channel: ${{ secrets.SLACK_CHANNEL }} # Slack channel ID to send notifications to from GitHub secrets
+          slack-token: ${{ secrets.SLACK_TOKEN }} # Slack API token from GitHub secrets - **SECURITY NOTE: Ensure Slack API token is securely stored in GitHub Secrets**
+          message-payload:
+            | # Define the JSON payload for the Slack message - Comprehensive and informative message structure
+            {
+              "text": "Deployment to Render *${{ github.ref_name }}* ${{ job.status }} - Environment: ${{ job.environment }}.", # Main message text - Includes branch, deployment status, and environment
+              "attachments": [ # Attachments for structured message formatting
+                {
+                  "fields": [ # Fields within attachment for key deployment details
+                    {
+                      "title": "Environment", # Field title: Deployment Environment
+                      "value": "${{ job.environment }}", # Field value: Deployment Environment (dynamic value from workflow context)
+                      "short": true # Shorten field display for better readability
+                    },
+                    {
+                      "title": "Status", # Field title: Deployment Status
+                      "value": "${{ job.status }}", # Field value: Deployment Status (dynamic value from workflow job status)
+                      "short": true # Shorten field display
+                    },
+                    {
+                      "title": "Commit", # Field title: Commit Information
+                      "value": "${{ github.sha }}", # Field value: Commit SHA (dynamic value from workflow context)
+                      "short": false # Full width display for commit SHA
+                    },
+                    {
+                      "title": "Workflow", # Field title: Workflow Run URL
+                      "value": "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|Workflow Run URL>", # Field value: Workflow Run URL (dynamic link to GitHub Actions run)
+                      "short": false # Full width display for Workflow Run URL
+                    }
+                  ]
+                }
+              ]
+            }

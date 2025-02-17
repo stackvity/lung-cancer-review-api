@@ -1,0 +1,92 @@
+version: "3.9"
+
+secrets: # Define Docker secrets for sensitive data - Best practice for handling API keys and credentials securely, even in local development
+  gemini_api_key: # Secret name: gemini_api_key
+    file: ./gemini_api_key.txt # IMPORTANT: Create this file with your Gemini API key locally
+  sentry_dsn: # Secret name: sentry_dsn
+    file: ./sentry_dsn.txt # IMPORTANT: Create this file with your Sentry DSN locally
+  file_encryption_key: # Secret name: file_encryption_key
+    file: ./file_encryption_key.txt # IMPORTANT: Create this file with a strong encryption key locally - **ENSURE THIS IS SECURE IN PRODUCTION**
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: lung-cancer-review-db-local # Container name for easy identification
+    ports:
+      - "5432:5432" # Maps host port 5432 to container port 5432 for database access from host
+    environment:
+      POSTGRES_USER: ${DB_USER:-lung_cancer_review_user} # Default user if DB_USER env var is not set
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-lung_cancer_review_password} # Default password if DB_PASSWORD env var is not set
+      POSTGRES_DB: ${DB_NAME:-lung_cancer_review_db} # Default database name if DB_NAME env var is not set
+    volumes:
+      - db_data:/var/lib/postgresql/data # Mount volume for persistent database data storage
+    healthcheck: # Health check configuration for Docker Compose to monitor database status
+      test: [
+          "CMD-SHELL",
+          "pg_isready -U ${DB_USER:-lung_cancer_review_user} -d ${DB_NAME:-lung_cancer_review_db}",
+        ] # Command to check PostgreSQL readiness
+      interval: 10s # Interval between health checks
+      timeout: 5s # Timeout for each health check
+      retries: 3 # Number of retries before considering unhealthy
+    networks: # Define networks
+      - backend-network # Attach service to backend network
+    deploy: # Optional deploy section for resource limits - Recommendation 2 (Resource Limits) - Commented out by default
+      resources: # Optional resource limits for database service - Recommendation 2 (Resource Limits) - Commented out by default
+        limits: # Resource limits - Recommendation 2 (Resource Limits) - Commented out by default
+          cpus: "0.5" # Limit to 0.5 CPU core - Example, adjust as needed - Recommendation 2 (Resource Limits) - Commented out by default
+          memory: 1G # Limit to 1GB RAM - Example, adjust as needed - Recommendation 2 (Resource Limits) - Commented out by default
+
+  api:
+    build:
+      context: . # Build context is the current directory (backend folder)
+      dockerfile: Dockerfile # Specifies the Dockerfile to use for building the image
+    container_name: lung-cancer-review-api-local # Container name for easy identification
+    ports:
+      - "8080:8080" # Maps host port 8080 to container port 8080 for API access from host
+    environment: # Pass environment variables to the API container, using .env file if available or defaults
+      DB_DRIVER: ${DB_DRIVER:-postgres} # Default database driver if DB_DRIVER env var is not set
+      DB_HOST: db # Use service name 'db' to connect to the database container within the Docker network
+      DB_PORT: ${DB_PORT:-5432} # Default database port if DB_PORT env var is not set
+      DB_USER: ${DB_USER:-lung_cancer_review_user} # Default database user if DB_USER env var is not set
+      DB_PASSWORD: ${DB_PASSWORD:-lung_cancer_review_password} # Default database password if DB_PASSWORD env var is not set
+      DB_NAME: ${DB_NAME:-lung_cancer_review_db} # Default database name if DB_NAME env var is not set
+      DB_SSL_MODE: ${DB_SSL_MODE:-disable} # Default SSL mode if DB_SSL_MODE is not set (disable for local dev)
+      HTTP_SERVER_ADDRESS: :8080 # API server address within the container
+      LOG_LEVEL: ${LOG_LEVEL:-debug} # Default log level if LOG_LEVEL is not set (debug for local dev)
+      LOG_FORMAT: ${LOG_FORMAT:-text} # Default log format if LOG_FORMAT is not set (text for local dev)
+      FILE_ENCRYPTION_KEY_FILE: /run/secrets/file_encryption_key # Use Docker Secret for encryption key - **MORE SECURE**
+      STORAGE_TYPE: ${STORAGE_TYPE:-local} # Default storage type to local for local development
+      REPORT_TEMPLATE_PATH: ./internal/pdf/templates # Path to report templates within the container
+      GEMINI_API_KEY_FILE: /run/secrets/gemini_api_key # Gemini API key - **SECURELY MOUNTED AS DOCKER SECRET**
+      SENTRY_DSN_FILE: /run/secrets/sentry_dsn # Sentry DSN - **SECURELY MOUNTED AS DOCKER SECRET**
+      CLOUD_STORAGE_BUCKET: ${CLOUD_STORAGE_BUCKET} # Cloud Storage Bucket - Consider using Docker secrets or volume mount for sensitive data
+      AWS_REGION: ${AWS_REGION} # AWS Region - Consider using Docker secrets or volume mount for sensitive data
+    secrets: # Mount Docker secrets to the API container for secure access - **ENHANCED SECURITY**
+      - gemini_api_key # Mount the Gemini API key secret
+      - sentry_dsn # Mount the Sentry DSN secret
+      - file_encryption_key # Mount the file encryption key secret
+    depends_on: # Define dependency on the database service - Ensures database container starts before API container
+      db:
+        condition: service_healthy # Wait for database service to be healthy before starting API
+    networks: # Define networks
+      - backend-network # Attach service to backend network
+    healthcheck: # Health check for API service - **ADDED API SERVICE HEALTH CHECK** - Recommendation 1
+      test: [
+          "CMD-SHELL",
+          "wget -q -O - http://localhost:8080/api/v1/health || exit 1",
+        ] # Test command to check API health
+      interval: 10s # Interval between health checks
+      timeout: 5s # Timeout for each health check
+      retries: 3 # Number of retries before considering unhealthy
+    deploy: # Optional deploy section for resource limits - Recommendation 2 (Resource Limits) - Commented out by default
+      resources: # Optional resource limits for API service - Recommendation 2 (Resource Limits) - Commented out by default
+        limits: # Resource limits - Recommendation 2 (Resource Limits) - Commented out by default
+          cpus: "1" # Limit to 1 CPU core - Example, adjust as needed - Recommendation 2 (Resource Limits) - Commented out by default
+          memory: 2G # Limit to 2GB RAM - Example, adjust as needed - Recommendation 2 (Resource Limits) - Commented out by default
+
+volumes:
+  db_data: # Named volume for PostgreSQL data persistence across container restarts
+
+networks: # Define networks
+  backend-network: # Backend network for inter-service communication within Docker Compose
+    driver: bridge # Use bridge network driver for isolated network

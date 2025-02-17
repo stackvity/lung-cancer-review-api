@@ -1,0 +1,67 @@
+# Binaries
+/lung-cancer-review-api  # Executable binary (consistent with Makefile BINARY_NAME)
+
+# Go Modules and Build Artifacts
+/vendor/           # Vendored dependencies
+go.sum             # Dependency checksum file (optional to exclude, usually kept in repo)
+*.test             # Test binaries
+*.prof             # Profiling files
+*.exe              # Executable files (Windows)
+*.o                # Object files
+*.a                # Archive files
+
+# Docker and Docker Compose
+docker-compose.override.yml # Docker Compose override file (local development)
+*_local_db-data # Docker Compose volume data (adjust if your db volume naming is different)
+*_local_api-1   # Docker Compose container logs (adjust if your api service name is different)
+
+# Environment and Secret Files
+.env              # Environment configuration file - CRITICAL: contains secrets, DO NOT commit!
+*.key             # Private keys (if any - ensure secure management, not in repo!)
+*.cert            # Certificates (if any - ensure secure management, not in repo!)
+*.p12             # Certificate files
+
+# IDE and Editor Specific Files
+.idea/             # IntelliJ IDEA project files
+.vscode/           # Visual Studio Code project files
+*.swp              # Vim swap files
+*.swo              # Vim swap files
+*.tmproj           # TextMate project files
+*.sublime-project  # Sublime Text project files
+*.sublime-workspace# Sublime Text workspace files
+
+# OS generated files # OS generated files
+.DS_Store         # macOS Folder settings
+Thumbs.db         # Windows thumbnail cache
+
+# Temporary and Cache Directories
+tmp/
+temp/
+/tmp/*
+__pycache__/      # Python cache
+*.pyc             # Python compiled files
+
+# Log files (if generated locally - consider central logging in production)
+*.log
+*.out
+
+# sqlc generated files
+internal/data/repositories/sqlc/  # sqlc generated output directory
+wire_gen.go                       # Wire generated code
+
+# Terraform state (if using Terraform for infrastructure as code)
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+
+# Kubernetes configuration (if applicable)
+.kube/config
+
+# node_modules (if frontend is included in the same repository) - Adjust if frontend is in a subdirectory
+node_modules/
+
+# Coverage profiles - Go coverage files
+*.out
+
+# Test binary - can be different from the main binary
+lung-cancer-review-api.test
