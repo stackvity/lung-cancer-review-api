@@ -1,7 +1,5 @@
 # AI Lung Cancer Review System - Backend API
 
-[![Build Status](https://github.com/stackvity/lung-cancer-review-api/workflows/Deploy/badge.svg)](https://github.com/stackvity/lung-cancer-review-api/actions)
-
 ## Overview
 
 This backend provides a secure and scalable API service for the Patient-Centric AI Lung Cancer Diagnosis and Treatment Recommendation System. It allows patients to upload medical documents (DICOM images, pathology reports, radiology reports, lab results) and receive a _preliminary_ AI-powered review. The system leverages the Google AI Gemini 2.0 APIs for image and text analysis to generate findings, _preliminary_ diagnoses, staging information, and _potential_ treatment options.
